@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.throttling import AnonRateThrottle,UserRateThrottle
 from .throttles import TenCallsPerMinute
+from rest_framework.permissions import IsAdminUser
 
 # Create your views here.
 @api_view(['GET', 'POST'])
@@ -72,3 +73,8 @@ def throttle_check_auth(request):
 @throttle_classes([TenCallsPerMinute])
 def throttle_check_auth_ten(request):
     return Response({"message":"message for the logged in user only ten per minute"})
+
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+def managers(request):
+    return Response({"message":"ok"})
